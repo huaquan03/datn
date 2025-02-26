@@ -3,10 +3,12 @@ services:
   spark-master:
     image: bitnami/spark:latest
     environment:
-      - SPARK_MODE=master
+    - SPARK_MODE=master
     ports:
-      - "8080:8080"   # UI cho Spark Master
-      - "7077:7077"
+    - "7077:7077"
+    - "8080:8080"
+    networks:
+    - shared_net
 
   spark-worker:
     image: bitnami/spark:latest

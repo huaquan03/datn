@@ -6,6 +6,8 @@ services:
       - ALLOW_ANONYMOUS_LOGIN=yes
     ports:
       - "2181:2181"
+    networks:
+      - shared_net
 
   kafka:
     image: bitnami/kafka:latest
@@ -19,3 +21,9 @@ services:
       - zookeeper
     ports:
       - "9092:9092"
+    networks:
+      - shared_net
+networks:
+  shared_net:
+    name: shared_net
+    driver: bridge

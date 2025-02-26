@@ -5,11 +5,11 @@ FROM python:3.8-slim
 WORKDIR /app
 
 # Copy file requirements (nếu có)
-COPY requirements.txt .
+# COPY requirements.txt .
 # Ví dụ nội dung requirements.txt:
 # flask==2.0.3
 # elasticsearch==7.17.0
-RUN pip install --no-cache-dir -r requirements.txt
+# RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy mã nguồn của API
 COPY app.py .

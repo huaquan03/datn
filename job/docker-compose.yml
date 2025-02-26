@@ -2,30 +2,32 @@ version: '3.8'
 services:
   fake-producer:
     build: ./producer
-    depends_on:
-      - kafka  # giả sử bạn kết nối đến Kafka từ network chung
     environment:
       - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     volumes:
       - ../data:/data
     command: ["python", "producer.py"]
+    networks:
+      - shared_net
 
   spark-streaming:
     build: ./spark_streaming
-    depends_on:
-      - kafka
-      - spark-master
     environment:
       - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       - SPARK_MASTER_URL=spark://spark-master:7077
     command: ["/opt/spark/bin/spark-submit", "--master", "spark://spark-master:7077", "streaming_job.py"]
+    networks:
+      - shared_net
 
   spark-batch:
     build: ./spark_batch
-    depends_on:
-      - kafka
-      - spark-master
     environment:
       - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       - SPARK_MASTER_URL=spark://spark-master:7077
     command: ["/opt/spark/bin/spark-submit", "--master", "spark://spark-master:7077", "batch_job.py"]
+    networks:
+      - shared_net
+
+networks:
+  shared_net:
+    external: true
